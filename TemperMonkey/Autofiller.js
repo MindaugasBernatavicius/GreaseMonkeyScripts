@@ -6,7 +6,7 @@
 // @author       You
 // @match        https://*/*
 // @grant        none
-// @run-at       document-idle
+// @run-at       document-end
 // @require      http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js
 // @require      https://gist.github.com/raw/2625891/waitForKeyElements.js
 // ==/UserScript==
@@ -14,7 +14,7 @@
 // helper functions
 function is_AM_loginpage()
 {
-    var login_elem_present = !!document.getElementsByClassName("loginform-subtitle")[0];
+    var login_elem_present = !!document.getElementsByClassName("login-container")[0];
     return login_elem_present;
 }
 
@@ -51,42 +51,48 @@ function is_speedtest_modal_open(){}
 function autofill_spdtst(){}
 
 // entrance point
-window.onload = function()
-{
-    // handle AirMAX login
-    if(is_AM_loginpage())
-    {
-        console.log("AM login");
-        setTimeout(function(){
-            perform_AM_login();
-            // handle case when default password "ubnt" used, instread of expected one
-        }, 200);
-    }
+$(window).load(function(){
 
-    // handle EdgeSwitch login
-    if(is_ES_loginpage())
-    {
-        console.log("ES login");
-        setTimeout(function(){
-            perform_ES_login();
-        }, 500);
-    }
+    GLOBAL_PAUSE = 150;
 
-    // handle AirMAX initial setup
-    if(is_AM_initPage())
+    setTimeout(function()
     {
-        // perform_AM_init();
-    }
+        // handle AirMAX login
+        if(is_AM_loginpage())
+        {
+            console.log("AM login");
+            setTimeout(function(){
+                perform_AM_login();
+                // handle case when default password "ubnt" used, instread of expected one
+            }, 1);
+        }
 
-    // handle AirMAX speed test autofill
-    if(is_speedtest_modal_open())
-    {
-        // autofill_spdtst();
-    }
+        // handle EdgeSwitch login
+        if(is_ES_loginpage())
+        {
+            console.log("ES login");
+            setTimeout(function(){
+                perform_ES_login();
+            }, 500);
+        }
 
-    // handle AirMAX initial password change
-    if(is_speedtest_modal_open())
-    {
-        // autofill_spdtst();
-    }
-};
+        // handle AirMAX initial setup
+        if(is_AM_initPage())
+        {
+            // perform_AM_init();
+        }
+
+        // handle AirMAX speed test autofill
+        if(is_speedtest_modal_open())
+        {
+            // autofill_spdtst();
+        }
+
+        // handle AirMAX initial password change
+        if(is_speedtest_modal_open())
+        {
+            // autofill_spdtst();
+        }
+
+    }, GLOBAL_PAUSE);
+});
