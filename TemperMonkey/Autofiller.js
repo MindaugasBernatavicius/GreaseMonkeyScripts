@@ -11,6 +11,10 @@
 // @require      https://gist.github.com/raw/2625891/waitForKeyElements.js
 // ==/UserScript==
 
+// 2DO
+
+// TESTS
+
 // helper functions
 function is_AM_loginpage()
 {
@@ -47,16 +51,31 @@ function perform_ES_login()
 function is_AM_initPage(){}
 function perform_AM_init(){}
 
-function is_speedtest_modal_open(){}
-function autofill_spdtst(){}
+function is_speedtest_modal_open()
+{
+    // id="ui-id-1" should have a text value "Speed Test"
+    if(document.getElementById("ui-id-1"))
+    {
+        return (document.getElementById("ui-id-1").textContent === "Speed Test" ? true : false);
+    }
+    else
+    {
+        return false;
+    }
+}
+
+function autofill_spdtst()
+{
+
+}
 
 // entrance point
 $(window).load(function(){
 
-    GLOBAL_PAUSE = 150;
+    GLOBAL_PAUSE = 300;
 
     setTimeout(function()
-    {
+               {
         // handle AirMAX login
         if(is_AM_loginpage())
         {
@@ -73,7 +92,7 @@ $(window).load(function(){
             console.log("ES login");
             setTimeout(function(){
                 perform_ES_login();
-            }, 500);
+            }, 1);
         }
 
         // handle AirMAX initial setup
@@ -83,16 +102,29 @@ $(window).load(function(){
         }
 
         // handle AirMAX speed test autofill
-        if(is_speedtest_modal_open())
+        if(false)
         {
             // autofill_spdtst();
         }
 
         // handle AirMAX initial password change
-        if(is_speedtest_modal_open())
+        if(false)
         {
             // autofill_spdtst();
         }
+
+        // cointinuously check if SpeedTest is open
+        setInterval(
+            function()
+            {
+                if(is_speedtest_modal_open())
+                {
+                    console.log("Speed Test Detected!");
+                    autofill_spdtst();
+                    // 2DO:: clearInterval() when speedtest is shown
+                }
+            }, 2000);
+        // when SpeedTest is closed, setInterval() reinitiate
 
     }, GLOBAL_PAUSE);
 });
