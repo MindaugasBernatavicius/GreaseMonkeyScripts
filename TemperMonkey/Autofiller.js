@@ -11,9 +11,6 @@
 // @require      https://gist.github.com/raw/2625891/waitForKeyElements.js
 // ==/UserScript==
 
-// 2DO
-
-// TESTS
 
 // helper functions
 function is_AM_loginpage()
@@ -54,9 +51,9 @@ function perform_AM_init(){}
 function is_speedtest_modal_open()
 {
     // id="ui-id-1" should have a text value "Speed Test"
-    if(document.getElementById("ui-id-1"))
+    if(document.querySelector('[id^="ui-id-"]'))
     {
-        return (document.getElementById("ui-id-1").textContent === "Speed Test" ? true : false);
+        return (document.querySelector('[id^="ui-id-"]').textContent === "Speed Test" ? true : false);
     }
     else
     {
@@ -66,7 +63,12 @@ function is_speedtest_modal_open()
 
 function autofill_spdtst()
 {
-
+    if(document.getElementById("st_user").value === "" &&
+       document.getElementById("st_password").value === "")
+    {
+        document.getElementById("st_user").value = "ubnt";
+        document.getElementById("st_password").value = "mindaugas1!";
+    }
 }
 
 // entrance point
@@ -74,8 +76,7 @@ $(window).load(function(){
 
     GLOBAL_PAUSE = 300;
 
-    setTimeout(function()
-               {
+    setTimeout(function(){
         // handle AirMAX login
         if(is_AM_loginpage())
         {
@@ -121,10 +122,8 @@ $(window).load(function(){
                 {
                     console.log("Speed Test Detected!");
                     autofill_spdtst();
-                    // 2DO:: clearInterval() when speedtest is shown
                 }
-            }, 2000);
-        // when SpeedTest is closed, setInterval() reinitiate
+            }, 200);
 
     }, GLOBAL_PAUSE);
 });
