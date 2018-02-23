@@ -16,7 +16,16 @@
 function is_AM_loginpage()
 {
     var login_elem_present = !!document.getElementsByClassName("login-container")[0];
-    return login_elem_present;
+    var registration_elem_present = !!document.getElementById("terms_of_use");
+
+    if(login_elem_present && !registration_elem_present)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 function perform_AM_login()
@@ -45,8 +54,38 @@ function perform_ES_login()
     document.querySelectorAll("input[value=Login]")[0].click();
 }
 
-function is_AM_initPage(){}
-function perform_AM_init(){}
+function is_AM_initPage()
+{
+    if(document.getElementById("terms_of_use"))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+function perform_AM_init()
+{
+    var uname_n = document.getElementById("loginform-username");
+    uname_n.value = "ubnt";
+
+    var passw_n = document.getElementById("loginform-password");
+    passw_n.value = "ubnt";
+
+    // get all the countries and decide what to
+    // choose based on whether it
+    // it is the world or fcc
+    document.getElementById("loginform-country").value = 0;
+
+    document.getElementById("loginform-language").value = 0;
+
+    document.getElementById("loginform-agreed").value = 0;
+
+    document.getElementById("loginform-submit").value = 0;
+
+}
 
 function is_speedtest_modal_open()
 {
@@ -99,7 +138,8 @@ $(window).load(function(){
         // handle AirMAX initial setup
         if(is_AM_initPage())
         {
-            // perform_AM_init();
+            console.log("AM init page");
+            perform_AM_init();
         }
 
         // handle AirMAX speed test autofill
