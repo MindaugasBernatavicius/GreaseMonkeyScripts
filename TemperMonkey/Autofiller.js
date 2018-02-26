@@ -75,16 +75,23 @@ function perform_AM_init()
     passw_n.value = "ubnt";
 
     // get all the countries and decide what to
-    // choose based on whether it
-    // it is the world or fcc
-    document.getElementById("loginform-country").value = 0;
+    // choose based on whether it is the world or fcc
+    var country_dropdown = document.getElementById("loginform-country");
 
-    document.getElementById("loginform-language").value = 0;
+    if(country_dropdown.length == 4)
+    {
+        // US == "3"
+        country_dropdown.options[3].selected = true;
+        country_dropdown.options[3].dispatchEvent(new Event('change', { 'bubbles': true }));
+    }
+    else
+    {
+        country_dropdown.selectedIndex = "15";
+    }
 
-    document.getElementById("loginform-agreed").value = 0;
-
-    document.getElementById("loginform-submit").value = 0;
-
+    document.getElementById("loginform-language").selectedIndex = "1";
+    document.getElementById("loginform-agreed").click();
+    document.getElementsByName("login")[0].click();
 }
 
 function is_speedtest_modal_open()
@@ -113,7 +120,7 @@ function autofill_spdtst()
 // entrance point
 $(window).load(function(){
 
-    GLOBAL_PAUSE = 300;
+    GLOBAL_PAUSE = 800;
 
     setTimeout(function(){
         // handle AirMAX login
