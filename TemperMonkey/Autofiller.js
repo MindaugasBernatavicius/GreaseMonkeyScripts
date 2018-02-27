@@ -149,12 +149,6 @@ $(window).load(function(){
             perform_AM_init();
         }
 
-        // handle AirMAX speed test autofill
-        if(false)
-        {
-            // autofill_spdtst();
-        }
-
         // handle AirMAX initial password change
         if(false)
         {
